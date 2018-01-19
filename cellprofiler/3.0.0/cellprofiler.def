@@ -1,0 +1,53 @@
+BootStrap: debootstrap
+OSVersion: xenial
+MirrorURL: http://us.archive.ubuntu.com/ubuntu/
+
+#
+# Container for Singularity
+# 
+# Written by Jonas Lindemann based on previous
+# work by Marcos Acebed
+#
+
+%help
+This is a container containing the application CellProfiler and required dependencies.
+
+%label
+CellProfiler 3.0.0
+
+%runscript
+/usr/local/bin/cellprofiler "$@"
+
+%post
+echo "---- INSTALLING CellProfiler 3.0.0 ----"
+sed -i 's/$/ universe/' /etc/apt/sources.list
+apt-get update 
+apt-get -y --force-yes install vim
+apt-get -y --force-yes install \
+build-essential    \
+cython             \
+git                \
+libmysqlclient-dev \
+libhdf5-dev        \
+libxml2-dev        \
+libxslt1-dev       \
+openjdk-8-jdk      \
+default-jre	   \
+python-dev         \
+python-pip         \
+python-h5py        \
+python-matplotlib  \
+python-mysqldb     \
+python-scipy       \
+python-numpy       \
+python-vigra       \
+python-wxgtk3.0    \
+python-zmq
+apt-get upgrade
+mkdir sw_install
+cd sw_install
+rm -rf CellProfiler
+git clone https://github.com/CellProfiler/CellProfiler.git
+cd CellProfiler
+pip install --editable .
+    

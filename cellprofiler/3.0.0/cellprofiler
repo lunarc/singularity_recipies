@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Singularity wrapper script
+
+set image_location=/sw/pkg/cellprofiler/cellprofiler.img
+
+xhost local:$USER &>/dev/null
+singularity run $image_location/cellprofiler.img $@
+xhost - local:$USER &>/dev/null
