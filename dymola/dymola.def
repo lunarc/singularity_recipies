@@ -1,0 +1,29 @@
+Bootstrap: docker
+From: rockylinux:8
+
+%files
+  dymola-2024x-linux64.tar /
+
+
+%environment
+  export LC_ALL=C
+
+
+%post
+  export LC_ALL=C
+
+  yum -y update
+
+  tar xvf dymola-2024x-linux64.tar -C /tmp
+  cd /tmp
+  yum -y install dymola-2024.1-1.x86_64.rpm
+  yum -y install dymola-dassaultsystemes-2024.1-1.x86_64.rpm
+  yum -y install dymola-claytex-2024.1-1.x86_64.rpm
+  yum -y install dymola-claytexfluid-2024.1-1.x86_64.rpm
+  yum -y install dymola-vesyma-2024.1-1.x86_64.rpm
+
+  rm /*.tar
+  rm /tmp/*.rpm
+
+%runscript
+  /opt/dymola-2024x-x86_64/bin64/dymola.sh $@
