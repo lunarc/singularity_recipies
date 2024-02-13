@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: continuumio/miniconda3
+
+%post
+  export LC_ALL=C
+  conda info
+
+/bin/bash <<EOF
+  conda install -y python=3.11 scipy matplotlib qtpy pyqt
+EOF
+
+%runscript
+  /bin/bash "$@"
